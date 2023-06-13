@@ -115,7 +115,7 @@ const Navbar = () => {
 							))}
 						</ul>
 					</div>
-					<div className="">
+					<div className="text-black">
 						{!isLoggedIn ? (
 							<div className="py-6">
 								<Link

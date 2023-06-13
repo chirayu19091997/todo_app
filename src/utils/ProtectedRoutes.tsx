@@ -7,17 +7,22 @@ interface ProtectedRoutesProps {
 }
 
 const ProtectedRoutes = ({ children }: ProtectedRoutesProps) => {
+	const router = useRouter();
 	const protectedRoutes = ["/dashboard"];
-	const { isLogin } = useUser();
+	const { user, isLogin } = useUser();
 	const pathname = usePathname();
 
 	useEffect(() => {
-		if (!isLogin) {
-			if (protectedRoutes.includes(pathname)) redirect("/login");
-		} else {
-			redirect("/dashboard");
+		if (user.id !== "") {
+			if (!isLogin) {
+				if (protectedRoutes.includes(pathname)) {
+					router.replace("/login");
+				}
+			} else {
+				router.replace("/dashboard");
+			}
 		}
-	}, [pathname, isLogin]);
+	}, [pathname, user, isLogin]);
 
 	return <>{children}</>;
 };

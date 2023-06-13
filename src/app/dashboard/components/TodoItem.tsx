@@ -35,7 +35,11 @@ const TodoItem = ({ item, index, updateTodo }: TodoItemProps) => {
 
 	return (
 		<div className="flex flex-col w-full border items-center justify-between rounded-md p-4 px-8 mt-2">
-			<div className="flex w-full justify-between">
+			<div
+				className={`flex w-full justify-between ${
+					isExpanded && "border-b border-gray-300 pb-2"
+				}`}
+			>
 				<TodoLabel item={item} index={index} onChangeFunction={onItemChange} />
 				{isExpanded ? (
 					<BsChevronCompactUp
@@ -56,20 +60,24 @@ const TodoItem = ({ item, index, updateTodo }: TodoItemProps) => {
 			{/* nested todos */}
 			{isExpanded && (
 				<div className="ml-16 m-4 flex flex-col w-full space-y-2">
-					{subTasks.map((subItem: todo, subIndex: number) => {
-						return (
-							<div
-								key={`st-${subIndex}`}
-								className="flex w-full justify-between"
-							>
-								<TodoLabel
-									item={subItem}
-									index={subIndex}
-									onChangeFunction={onSubItemChange}
-								/>
-							</div>
-						);
-					})}
+					{!!subTasks.length ? (
+						subTasks.map((subItem: todo, subIndex: number) => {
+							return (
+								<div
+									key={`st-${subIndex}`}
+									className="flex w-full justify-between"
+								>
+									<TodoLabel
+										item={subItem}
+										index={subIndex}
+										onChangeFunction={onSubItemChange}
+									/>
+								</div>
+							);
+						})
+					) : (
+						<p className="w-full text-center">No Sub Tasks</p>
+					)}
 					{!item.isCompleted && (
 						<AddTodo data={data} setData={setData} onAddTodo={onAddSubTodo} />
 					)}

@@ -1,16 +1,20 @@
 import React from "react";
 import { BigHead } from "@bigheads/core";
 import { useUser } from "@/utils/contexts";
+import { useRouter } from "next/navigation";
 
 const av = <BigHead />;
 const ProfileManagement = ({ isOpen, toggle, name }: any) => {
 	const { Logout } = useUser();
 	const options = ["Sign Out"];
+	const router = useRouter();
 	const handleProfileManagement = (operation: string) => {
 		switch (operation) {
-			case "Sign Out":
+			case "Sign Out": {
 				Logout();
+				router.replace("/");
 				break;
+			}
 			default:
 				break;
 		}
